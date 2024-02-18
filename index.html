@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Healthify FINAL</title>
+  
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Healthify</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+      padding-top: 50px;
+      color: #001f3f; /* Navy Blue color */
+    }
+
+    h1 {
+      color: #001f3f; /* Navy Blue color for the title */
+    }
+
+    form {
+      max-width: 400px;
+      margin: 0 auto;
+      background-color: #c5e1f9; /* Periwinkle background */
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: none; /* Initially hide the form */
+    }
+
+    label {
+      display: block;
+      margin-top: 10px;
+      color: #001f3f; /* Navy Blue color for labels */
+      font-weight: bold;
+    }
+
+    input, textarea, select {
+      width: calc(100% - 16px);
+      padding: 8px;
+      margin-top: 5px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      border: 1px solid #001f3f; /* Navy Blue border */
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    button {
+      background-color: #001f3f; /* Navy Blue button background */
+      color: #c5e1f9; /* Periwinkle button text color */
+      padding: 10px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #003366; /* Darker Navy Blue on hover */
+    }
+
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="titlePage">
+    <h1>Healthify</h1>
+    <p>Your Health, Our Priority</p>
+    <p>Join us to achieve a healthier lifestyle today!</p>
+    <button onclick="goToNextPage()">Get Started</button>
+  </div>
+
+  <form id="namePage" style="display: none;">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="agePage" style="display: none;">
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" required>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="heightPage" style="display: none;">
+    <label for="height">Height (in):</label>
+    <input type="number" id="height" name="height" required>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="weightPage" style="display: none;">
+    <label for="weight">Weight (lb):</label>
+    <input type="number" id="weight" name="weight" required>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="smartDevicePage" style="display: none;">
+    <label for="smartDevice">Do you have a smart device you would like to connect?</label>
+    <input type="text" id="smartDevice" name="smartDevice" placeholder="Yes/No" required>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="breathRatePage" style="display: none;">
+    <label for="breathRate">Breath Rate:</label>
+    <input type="number" id="breathRate" name="breathRate" required>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="heartRatePage" style="display: none;">
+    <label for="heartRate">Heart Rate:</label>
+    <input type="number" id="heartRate" name="heartRate" required>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="bloodPressurePage" style="display: none;">
+    <label for="bloodPressure">Blood Pressure:</label>
+    <input type="text" id="bloodPressure" name="bloodPressure" required>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="goToNextPage()">Next</button>
+  </form>
+
+  <form id="symptomsPage" style="display: none;">
+    <label for="symptoms">Main Symptom:</label>
+    <textarea id="symptoms" name="symptoms" required></textarea>
+    <button type="button" onclick="goBack()">Go Back</button>
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form>
+
+  <div id="result"></div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/brain/0.12.2/brain.js"></script>
+
+  <script>
+    let currentPage = 1;
+
+    function goToNamePage() {
+      document.getElementById('titlePage').style.display = 'none';
+      document.getElementById('namePage').style.display = 'block';
+    }
+
+    function showPage(pageNumber) {
+      const pages = ['titlePage', 'namePage', 'agePage', 'heightPage', 'weightPage', 'smartDevicePage', 'breathRatePage', 'heartRatePage', 'bloodPressurePage', 'symptomsPage'];
+
+      for (const page of pages) {
+        document.getElementById(page).style.display = 'none';
+      }
+
+      document.getElementById(pages[pageNumber - 1]).style.display = 'block';
+      currentPage = pageNumber;
+    }
+
+    function goBack() {
+      if (currentPage > 1) {
+        showPage(currentPage - 1);
+      } else {
+        document.getElementById('titlePage').style.display = 'block';
+        document.getElementById('result').innerHTML = ''; // Clear the result when going back
+      }
+    }
+
+    function goToNextPage() {
+      if (currentPage < 11) {
+        showPage(currentPage + 1);
+      }
+    }
+
+    function submitForm() {
+      const name = document.getElementById('name').value;
+      const age = parseInt(document.getElementById('age').value);
+      const height = parseInt(document.getElementById('height').value);
+      const weight = parseInt(document.getElementById('weight').value);
+      const smartDevice = document.getElementById('smartDevice').value;
+      const breathRate = parseInt(document.getElementById('breathRate').value);
+      const heartRate = parseInt(document.getElementById('heartRate').value);
+      const bloodPressure = document.getElementById('bloodPressure').value;
+      const symptoms = document.getElementById('symptoms').value;
+      
+      function classifySymptoms(symptoms) {
+      const net = new brain.recurrent.LSTM();
+      const trainingData = [
+        { input: "cough", output: 0 },
+        { input: "fever", output: 1 },
+        // Add more training data as needed
+      ];
+      net.train(trainingData);
+      return net.run(symptoms);
+    }
+      
+
+      const medication = suggestMedication(name, age, height, weight, breathRate, heartRate, bloodPressure, symptoms);
+      
+      //const diagnosis = classifySymptoms(symptoms);
+
+      document.getElementById('result').innerHTML = `
+        <p>Suggested Medication for ${name} to treat the listed symptoms:</p>
+        <p>Name: ${medication.name}</p>
+        <p>Dosage: ${calculateDosage(weight, height)} mL</p>
+        <p>Concerns: ${medication.concerns}</p>
+        <p>Don't forget that this is not a medical diagnosis.</p>
+        <p>If in doubt, please seek medical attention.</p>
+      `;
+    }
+
+    function suggestMedication(name, age, height, weight, breathRate, heartRate, bloodPressure, symptoms) {
+      const medications = [
+        { name: 'Acetaminophen', concerns: 'May cause drowsiness' }, // 0
+        { name: 'Ibuprofen', concerns: 'May cause drowsiness' }, // 1
+        { name: 'Amoxicillin', concerns: 'Avoid if allergic to certain ingredients' }, // 2
+        { name: 'Dramamine', concerns: 'May cause drowsiness' }, // 3
+        { name: 'Oxymetazoline', concerns: 'Do not consume if you have high BP' }, // 4
+        { name: 'Dextromethorphan Hydrobromide', concerns: 'Take with food' }, // 5
+      ];
+
+      //const randomIndex = Math.floor(Math.random() * medications.length);
+      const randomeIndex = 0;
+      if (symptoms == "fever\naches") {
+        randomIndex = 0;
+      }
+      if (symptoms == "fever\naches") {
+        randomIndex = 1;
+      }
+      if (symptoms == "sore throat") {
+        randomIndex = 2;
+      }
+      if (symptoms == "nausea\ndizziness" || symptoms == "nausea") {
+        randomIndex = 3;
+      }
+      if (symptoms == "sinus pressure") {
+        randomIndex = 4;
+      }
+      if (symptoms == "sinus pressure\ncough" || symptoms == "sinus pressure\ncoughing") {
+        randomIndex = 5;
+      }
+      return medications[randomIndex];
+    }
+
+    function calculateDosage(weight, height) {
+      const dosage = (weight + height) / 2;
+      return dosage.toFixed(2);
+    }
+
+    showPage(currentPage);
+  </script>
+
+</body>
+</html>
+<!-- partial -->
+  
+</body>
+</html>
